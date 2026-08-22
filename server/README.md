@@ -30,7 +30,7 @@ curl "http://localhost:8480/get_personal_high_score.php?userId=test"
 | `get_leaderboard.php` | GET | `game`, `limit` (default 10, max 100) | `{success, game, leaderboard: [{rank, userid, score}]}` |
 | `health.php` | GET | — | `ok` (used by container healthcheck) |
 
-Multi-game: `game` is a slug (`a-z 0-9 _ -`, max 32 chars) and defaults to `kitten-cannon` everywhere, so the original game client works unchanged. `userId` is a player tag (e.g. 3-letter initials): 1–16 chars `A-Z 0-9 _ -`, uppercased server-side, so `tjs` and `TJS` are the same player.
+Multi-game: `game` is a slug (`a-z 0-9 _ -`, max 32 chars) and defaults to `kitten-cannon` everywhere, so the original game client works unchanged. `userId` is the player's initials: the server uppercases, strips non-letters, and crops to 3 (`t2j.s!` → `TJS`); ids with no letters are rejected. `tjs` and `TJS` are the same player.
 
 ## Unraid
 

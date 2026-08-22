@@ -38,9 +38,10 @@ function param_game() {
     return $g;
 }
 
-// Player id (e.g. 3-letter initials). Uppercased; 1-16 chars A-Z 0-9 _ -.
+// Player initials: server-side normalization regardless of client — uppercase,
+// strip anything that isn't A-Z, crop to the first 3 letters. Null if none remain.
 function clean_userid($raw) {
-    $u = strtoupper(trim($raw ?? ''));
-    return preg_match('/^[A-Z0-9][A-Z0-9_-]{0,15}$/', $u) ? $u : null;
+    $u = substr(preg_replace('/[^A-Z]/', '', strtoupper(trim($raw ?? ''))), 0, 3);
+    return $u !== '' ? $u : null;
 }
 ?>

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS scores (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     game VARCHAR(32) NOT NULL DEFAULT 'kitten-cannon',
-    userid VARCHAR(16) NOT NULL,
+    userid VARCHAR(3) NOT NULL,
     score INT NOT NULL DEFAULT 0,
     created_at DATETIME NOT NULL,
     PRIMARY KEY (id),
