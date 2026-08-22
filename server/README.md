@@ -27,7 +27,7 @@ curl "http://localhost:8480/get_personal_high_score.php?userId=test"
 | `save_score.php` | POST | `userId` (also accepts `userid`), `score`, `game` | `{success, message}` |
 | `get_high_score.php` | GET | `score` (optional, for percentile), `game` | `{success, highScore, percentile, totalScores}` |
 | `get_personal_high_score.php` | GET | `userId`, `game` | `{success, personalHighScore}` |
-| `get_leaderboard.php` | GET | `game`, `limit` (default 10, max 100) | `{success, game, leaderboard: [{rank, userid, score}]}` |
+| `get_leaderboard.php` | GET | `game`, `limit` (default 10, max 100), `runs=1` (top individual runs, arcade-style repeats, instead of best-per-player) | `{success, game, leaderboard: [{rank, userid, score}]}` |
 | `health.php` | GET | — | `ok` (used by container healthcheck) |
 
 Multi-game: `game` is a slug (`a-z 0-9 _ -`, max 32 chars) and defaults to `kitten-cannon` everywhere, so the original game client works unchanged. `userId` is the player's initials: the server uppercases, strips non-letters, and crops to 3 (`t2j.s!` → `TJS`); ids with no letters are rejected. `tjs` and `TJS` are the same player.
