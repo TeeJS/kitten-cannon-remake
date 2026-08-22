@@ -1,3 +1,7 @@
 .temp
 sandbox
 ref_images
+# server secrets
+server/.env
+# Unraid templates contain live DB passwords - keep local only
+server/unraid/

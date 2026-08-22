@@ -1,0 +1,38 @@
+services:
+  api:
+    build: .
+    container_name: kitten-cannon-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-8480}:80"
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-kittencannon}
+      DB_USER: ${DB_USER:-kittencannon}
+      DB_PASS: ${DB_PASS}
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-*}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:11
+    container_name: kitten-cannon-db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-kittencannon}
+      MARIADB_USER: ${DB_USER:-kittencannon}
+      MARIADB_PASSWORD: ${DB_PASS}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  db_data:
