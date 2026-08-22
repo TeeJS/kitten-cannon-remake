@@ -5,3 +5,4 @@ ref_images
 server/.env
 # Unraid templates contain live DB passwords - keep local only
 server/unraid/
+server/HANDOFF.md

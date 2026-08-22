@@ -1,7 +1,8 @@
 <?php
 include 'db.php';
 
-$userId = $_GET['userId'] ?? $_GET['userid'] ?? null;
+$game   = param_game();
+$userId = clean_userid($_GET['userId'] ?? $_GET['userid'] ?? null);
 
 if (!$userId) {
     echo json_encode(['success' => false, 'message' => 'User ID is required']);
@@ -9,8 +10,8 @@ if (!$userId) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT MAX(score) as highScore FROM scores WHERE userid = :userId");
-    $stmt->execute([':userId' => substr(trim($userId), 0, 64)]);
+    $stmt = $pdo->prepare("SELECT MAX(score) as highScore FROM scores WHERE game = :game AND userid = :userId");
+    $stmt->execute([':game' => $game, ':userId' => $userId]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     echo json_encode([

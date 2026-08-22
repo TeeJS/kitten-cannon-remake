@@ -24,10 +24,13 @@ curl "http://localhost:8480/get_personal_high_score.php?userId=test"
 
 | Endpoint | Method | Params | Returns |
 |---|---|---|---|
-| `save_score.php` | POST | `userId` (also accepts `userid`), `score` | `{success, message}` |
-| `get_high_score.php` | GET | `score` (optional, for percentile) | `{success, highScore, percentile, totalScores}` |
-| `get_personal_high_score.php` | GET | `userId` | `{success, personalHighScore}` |
+| `save_score.php` | POST | `userId` (also accepts `userid`), `score`, `game` | `{success, message}` |
+| `get_high_score.php` | GET | `score` (optional, for percentile), `game` | `{success, highScore, percentile, totalScores}` |
+| `get_personal_high_score.php` | GET | `userId`, `game` | `{success, personalHighScore}` |
+| `get_leaderboard.php` | GET | `game`, `limit` (default 10, max 100) | `{success, game, leaderboard: [{rank, userid, score}]}` |
 | `health.php` | GET | — | `ok` (used by container healthcheck) |
+
+Multi-game: `game` is a slug (`a-z 0-9 _ -`, max 32 chars) and defaults to `kitten-cannon` everywhere, so the original game client works unchanged. `userId` is a player tag (e.g. 3-letter initials): 1–16 chars `A-Z 0-9 _ -`, uppercased server-side, so `tjs` and `TJS` are the same player.
 
 ## Unraid
 
